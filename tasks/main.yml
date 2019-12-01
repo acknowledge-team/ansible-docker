@@ -1,0 +1,23 @@
+---
+# tasks file for ansible-docker
+- name: Add apt docker signing key
+  apt_key:
+    url: "https://download.docker.com/linux/debian/gpg"
+    state: present
+
+- name: Ensure docker debian repository has been added
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: Install docker requirements and packages for debian
+  apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - gnupg2
+    - software-properties-common
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    update_cache: yes
